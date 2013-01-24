@@ -4,6 +4,7 @@ import json
 import logging
 import logging.handlers
 import datetime
+import log
 
 create_db_sql = {}
 
@@ -218,8 +219,8 @@ class LogDB:
         cur.execute(sql)
         cur.close()
         conn.commit()
-    def deal_error(self):
-        pass
+    def log(self,msg):
+        log.instance().error(msg)
     def deal_logfile(self,file_name):
         try:
             f = open(file_name)
@@ -241,7 +242,7 @@ class LogDB:
                 line = f.readline()
             f.close()    
         except:
-            pass
+			log("open file failed"%file_name)
 if __name__=="__main__":
     log = LogDB()
     print log.get_db_conn("1-1")
